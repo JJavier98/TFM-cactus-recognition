@@ -16,15 +16,15 @@ data = dict(
     train=dict(
         img_prefix='data/imgs/google_maps/gm_saguaro_z21_train',
         classes=classes,
-        ann_file='data/coco_annotations/saguaro/train/annotation_coco.json'),
+        ann_file='data/coco_annotations/saguaro/train.json'),
     val=dict(
         img_prefix='data/imgs/google_maps/gm_saguaro_z21_val',
         classes=classes,
-        ann_file='data/coco_annotations/saguaro/val/annotation_coco.json'),
+        ann_file='data/coco_annotations/saguaro/validation.json'),
     test=dict(
         img_prefix='data/imgs/google_maps/gm_saguaro_z21_test',
         classes=classes,
-        ann_file='data/coco_annotations/saguaro/val/annotation_coco.json'))
+        ann_file='data/coco_annotations/saguaro/test.json'))
 
 # We can use the pre-trained Mask RCNN model to obtain higher performance
 load_from = 'checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'

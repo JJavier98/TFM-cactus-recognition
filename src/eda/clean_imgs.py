@@ -44,4 +44,3 @@ def clean_imgs(path):
 if __name__ == '__main__':
     img_to_clean_path = os.path.join('data','imgs','google_maps','bing_saguaro_z21_clean')
     clean_imgs(img_to_clean_path)
-    
