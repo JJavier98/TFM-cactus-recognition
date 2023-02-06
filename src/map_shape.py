@@ -16,7 +16,7 @@ for img in imgs_list:
     col = img.split('-')[1]
     col = col.split('.')[0]
     col = int(col)
-    
+
     row = img.split('-')[0]
     row = row.split('_')[1]
     row = int(row)

@@ -15,11 +15,11 @@ def split_dataset(source_folder, train_folder, val_folder, test_folder, train_si
         test_folder (str): carpeta donde se guardarán las imágenes de test
         train_size (int, optional): número de imágenes para el conjunto de entrenamiento. Defaults to 80.
         validation_size (int, optional): número de imágenes para el conjunto de validación. Defaults to 20.
-    """     
+    """
     imgs_list = os.listdir(source_folder)
     random.shuffle(imgs_list)
 
-    assert(train_size + validation_size < len(imgs_list))
+    assert train_size + validation_size < len(imgs_list)
 
     for folder in [train_folder, val_folder, test_folder]:
         if not os.path.exists(folder):
