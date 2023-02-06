@@ -1,3 +1,14 @@
+"""
+    Script para detectar y posicionar cactus en imágenes satelitales.
+    Se usa para contar el número de cactus saguaro que se encuentran en el 
+    Parque Nacional de Saguaro en Arizona, EE.UU.
+
+    Returns:
+        file: devuelve un .CSV con el nombre de las imágenes analizadas, los
+        bboxes de los cactus detectados y la confianza de la detección.
+"""
+
+
 # BIBLIOTECAS
 #_______________________________________________________________________________
 import timeit
@@ -11,7 +22,7 @@ import numpy as np
 from tqdm import tqdm
 from mmdet.apis import init_detector, inference_detector
 
-from count_cacti_UI import UI
+from count_cacti_ui import UI
 
 
 # ARGUMENTOS
@@ -109,27 +120,20 @@ def print_save_results(res_list, bbox_file, out_file=None):
         res_list[-1].to_csv(bbox_file, index=False)
 
 
-def run(args):
+def run(arguments):
     """
     Función encargada de realizar las principales tareas que ocupa este script:
     detección y conteo de cactus
     Args:
-        args (object): argumentos necesarios para la ejecución del programa
+        arguments (object): argumentos necesarios para la ejecución del programa
 
     Returns:
         tuple: data frame de bboxes, número de bboxes, número imgs
     """
-    # Specify the path to model config and checkpoint file
-    config_file = args.config_file
-    checkpoint_file = args.checkpoint_file
-    img_path = args.imgs_path
-    results_path = args.res_path
-    threshold = args.threshold
-    save_imgs = args.save_imgs
-
     # build the model from a config file and a checkpoint file
     device = 'cuda:0'
-    model = init_detector(config_file, checkpoint_file, device=device)
+    model = init_detector(arguments.config_file, arguments.checkpoint_file,
+                          device=device)
 
     n_bbox = 0
     n_imgs = 0
@@ -144,9 +148,9 @@ def run(args):
             'Bbox'
         ]
     )
-    imgs_list = os.listdir(img_path)
+    imgs_list = os.listdir(arguments.imgs_path)
     for img_name in tqdm(imgs_list):
-        img = pj(img_path, img_name)
+        img = pj(arguments.imgs_path, img_name)
 
         if os.path.isfile(img):
 
@@ -154,16 +158,16 @@ def run(args):
             # result es un vector de 5 componentes
             # contiene los bboxes (4 primeras coords) y el score (la última)
             result = inference_detector(model, img)
-            if save_imgs:
+            if arguments.save_imgs:
                 model.show_result(
                     img,
                     result,
-                    score_thr = float(threshold),
-                    out_file = pj(results_path, 'imgs', TXT_TODAY, 'res_'+img_name)
+                    score_thr = float(arguments.threshold),
+                    out_file = pj(arguments.res_path, 'imgs', TXT_TODAY, 'res_'+img_name)
                 )
 
             bboxes = np.vstack(result)
-            bboxes = bboxes[np.where(bboxes[:,-1] >= float(threshold))]
+            bboxes = bboxes[np.where(bboxes[:,-1] >= float(arguments.threshold))]
             n_bbox += len(bboxes)
 
             new_row = pd.DataFrame(
@@ -184,26 +188,26 @@ def run(args):
 
 # FUNCIÓN MAIN
 #_______________________________________________________________________________
-def main(args):
+def main(arguments):
     """
     Función main del programa que reune todas las operaciones a realizar.
 
     Args:
-        args (object): argumentos necesarios para la ejecución del programa
+        arguments (object): argumentos necesarios para la ejecución del programa
 
     Returns:
         list: lista con todos los datos en formato texto para ser mostrados
     """
     secuential_start = timeit.default_timer()
-    bbox_list, n_bbox, n_imgs = run(args)
+    bbox_list, n_bbox, n_imgs = run(arguments)
     secuential_stop = timeit.default_timer()
 
     txt_exe_time = f'Tiempo de ejecución: {secuential_stop - secuential_start:.2f} segundos'
     txt_n_imgs = f'Número de imágenes analizadas: {n_imgs}'
     txt_n_cacti = f'Número de cactus detectados: {n_bbox}'
-    txt_config_file = f'Archivo de configuración: {args.config_file}'
-    txt_checkpoint_file = f'Archivo de control: {args.checkpoint_file}'
-    bbox_file = pj(args.res_path, 'bboxes', 'bbox_'+TXT_TODAY+".csv")
+    txt_config_file = f'Archivo de configuración: {arguments.config_file}'
+    txt_checkpoint_file = f'Archivo de control: {arguments.checkpoint_file}'
+    bbox_file = pj(arguments.res_path, 'bboxes', 'bbox_'+TXT_TODAY+".csv")
     txt_bbox_file = f'Archivo con todos los bbox detectados: {bbox_file}'
 
     res_list = [
@@ -219,7 +223,7 @@ def main(args):
     print_save_results(
         res_list=res_list,
         bbox_file=bbox_file,
-        out_file=pj(args.res_path, 'logs', 'log_'+TXT_TODAY+'.log')
+        out_file=pj(arguments.res_path, 'logs', 'log_'+TXT_TODAY+'.log')
     )
 
     return res_list

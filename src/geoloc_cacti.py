@@ -1,3 +1,13 @@
+"""
+    Script para geolocalizar los cactus del Parque Nacional de Saguaro en Arizona,
+    EE.UU. a partir de los bboxes obtenidos mediante el script "count_cacti.py".
+    
+    Returns:
+        file: devuelve el .CSV de "count_cacti.py" con el que trabaja completado
+        con las coordenadas correspondientes a cada bbox en formato GDS y GD.
+"""
+
+
 # BIBLIOTECAS
 #_______________________________________________________________________________
 from os.path import join as pj
@@ -8,7 +18,7 @@ import mpmath as mp
 from mpmath import mpf
 from tqdm import tqdm
 
-from geoloc_cacti_UI import UI
+from geoloc_cacti_ui import UI
 
 
 # ARGUMENTOS
@@ -47,16 +57,18 @@ args = parser.parse_args()
 #_______________________________________________________________________________
 mp.dps = 50
 TXT_TODAY = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
+Y_BASE = mpf(116091.62442668579765836511796806007623672485351563)
+X_BASE = mpf(-400482.14096600384308977105263238627230748534202576)
 
 
 # FUNCIONES
 #_______________________________________________________________________________
-def is_number(s):
+def is_number(string):
     """
     Returns True if string is a number
     """
     try:
-        float(s)
+        float(string)
         return True
     except ValueError:
         return False
@@ -183,14 +195,11 @@ def bbox2coords(img_col, img_row, x_img_coord, y_img_coord):
     Returns:
         list: latitud y longitud del cactus representado por la bbox
     """
-    x = mpf(0.0048280055479335542284458071549124724697321653366089)
-    y = mpf(0.0040809382961309497231394693983475008280947804450989)
+    x_factor = mpf(0.0048280055479335542284458071549124724697321653366089)
+    y_factor = mpf(0.0040809382961309497231394693983475008280947804450989)
 
-    Y_BASE = mpf(116091.62442668579765836511796806007623672485351563)
-    X_BASE = mpf(-400482.14096600384308977105263238627230748534202576)
-
-    latitude = mpf( mpf((361-img_row+1)*255 - y_img_coord) * y) + Y_BASE
-    longitude = mpf( mpf((img_col-1)*255 + x_img_coord) * x) + X_BASE
+    latitude = mpf( mpf((361-img_row+1)*255 - y_img_coord) * y_factor) + Y_BASE
+    longitude = mpf( mpf((img_col-1)*255 + x_img_coord) * x_factor) + X_BASE
 
     return [latitude, longitude]
 
@@ -203,11 +212,11 @@ def locate_cacti(bboxes_file, coords_folder):
     Args:
         bboxes_file (str): archivo que contiene los bboxes de los cactus detectados.
     """
-    df = pd.read_csv(bboxes_file, encoding='utf-8')
+    bbox_df = pd.read_csv(bboxes_file, encoding='utf-8')
 
     gds_coords_global = []
     gd_coords_global = []
-    for _, df_row in tqdm(df.iterrows()):
+    for _, df_row in tqdm(bbox_df.iterrows()):
         col, row = df_row['Img Name'].split('-')
         col = col.split('_')[1]
         col = int(col)
@@ -226,10 +235,10 @@ def locate_cacti(bboxes_file, coords_folder):
         gds_coords_global.append(gds_coords)
         gd_coords_global.append(gd_coords)
 
-    df['GDS'] = gds_coords_global
-    df['GD'] = gd_coords_global
+    bbox_df['GDS'] = gds_coords_global
+    bbox_df['GD'] = gd_coords_global
 
-    df.to_csv(
+    bbox_df.to_csv(
         pj(coords_folder,'coords_'+TXT_TODAY+'.csv'),
         quoting=None,
         index=False,
@@ -237,11 +246,13 @@ def locate_cacti(bboxes_file, coords_folder):
     )
 
 
+# EJECUCIÓN
+#_______________________________________________________________________________
 if __name__ == '__main__':
     if args.user_interface:
         UI(locate_cacti)
     else:
-        locate_cacti(args.bbox_file, args.res_path)    
+        locate_cacti(args.bbox_file, args.res_path)
 
 
 ########################################################################

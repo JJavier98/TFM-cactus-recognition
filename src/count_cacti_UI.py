@@ -1,10 +1,21 @@
+"""
+    Interfaz gráfica para seleccionar de manera más fácil los argumentos necesarios
+    para la ejecución del script "count_cacti.py"
+"""
+
+
+# BIBLIOTECAS
+#_______________________________________________________________________________
 from os.path import join as pj
 import tkinter as tk
-from tkinter import *
+from tkinter import E,W, DoubleVar, StringVar, BooleanVar, HORIZONTAL, END
 from tkinter import ttk
 from tkinter import filedialog as fd
 from dataclasses import dataclass
 
+
+# CLASES
+#_______________________________________________________________________________
 class UI(ttk.Frame):
     """
     Clase para crear la interfaz gráfica del programa para contar cactus.
@@ -12,6 +23,10 @@ class UI(ttk.Frame):
     Args:
         ttk.Frame (class): clase de la que hereda.
     """
+
+
+    # Constructor
+    #___________________________________________________________________________
     def __init__(self, main_function):
         self.parent = tk.Tk()
         self.parent.title("Detección y conteo de cactus")
@@ -197,28 +212,32 @@ class UI(ttk.Frame):
         ## imagenes
         self.label_imgs.grid(row=row_, column=0, sticky=W)
         row_ += 1
-        self.entry_imgs.grid(row=row_, column=0, columnspan=2, sticky=W, padx=(0,10), pady=(0,15))
+        self.entry_imgs.grid(row=row_, column=0, columnspan=2, sticky=W,
+                             padx=(0,10), pady=(0,15))
         self.button_imgs.grid(row=row_, column=2, pady=(0,15))
 
         ## resultados de imágenes
         row_ += 1
         self.label_res.grid(row=row_, column=0, sticky=W)
         row_ += 1
-        self.entry_res.grid(row=row_, column=0, columnspan=2, sticky=W, padx=(0,10), pady=(0,15))
+        self.entry_res.grid(row=row_, column=0, columnspan=2, sticky=W,
+                            padx=(0,10), pady=(0,15))
         self.button_res.grid(row=row_, column=2, pady=(0,15))
 
         ## configuración
         row_ += 1
         self.label_config.grid(row=row_, column=0, sticky=W)
         row_ += 1
-        self.entry_config.grid(row=row_, column=0, columnspan=2, sticky=W, padx=(0,10), pady=(0,15))
+        self.entry_config.grid(row=row_, column=0, columnspan=2, sticky=W,
+                               padx=(0,10), pady=(0,15))
         self.button_config.grid(row=row_, column=2, pady=(0,15))
 
         ## archivo de control
         row_ += 1
         self.label_checkpoint.grid(row=row_, column=0, sticky=W)
         row_ += 1
-        self.entry_checkpoint.grid(row=row_, column=0, columnspan=2, sticky=W, padx=(0,10), pady=(0,15))
+        self.entry_checkpoint.grid(row=row_, column=0, columnspan=2, sticky=W,
+                                   padx=(0,10), pady=(0,15))
         self.button_checkpoint.grid(row=row_, column=2, pady=(0,15))
 
         ## threshold
