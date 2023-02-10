@@ -18,7 +18,7 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 
-from cacti_height_ui import UI
+from height_ui import UI
 
 
 # ARGUMENTOS
@@ -76,7 +76,7 @@ def get_cacti_height(bboxes_file, height_folder, overwrite=False):
 
     Args:
         bboxes_file (str): arvhico csv con los bboxes de los cactus.
-        height_folder (str): carpeta destino donde se guardará el csv desultado.
+        height_folder (str): carpeta destino donde se guardará el csv resultado.
         overwrite (bool, optional): Ignorar height_folder y sobrescribir
             bboxes_file. Defaults to False.
     """

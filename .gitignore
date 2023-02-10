@@ -167,3 +167,5 @@ SAS.Planet/
 imgs/
 src/results/imgs/
 mmdetection/results/saguaro_09012023/
+*.jpg
+*.png

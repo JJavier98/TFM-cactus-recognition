@@ -8,10 +8,10 @@
         bboxes de los cactus detectados y la confianza de la detección.
 """
 
-
 # BIBLIOTECAS
 #_______________________________________________________________________________
 import timeit
+import warnings
 import os
 from os.path import join as pj
 import argparse
@@ -22,7 +22,12 @@ import numpy as np
 from tqdm import tqdm
 from mmdet.apis import init_detector, inference_detector
 
-from count_cacti_ui import UI
+from count_ui import UI
+
+
+# WARNINGS
+#_______________________________________________________________________________
+warnings.filterwarnings("ignore")
 
 
 # ARGUMENTOS

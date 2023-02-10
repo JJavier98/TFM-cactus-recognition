@@ -28,17 +28,17 @@ class UI(ttk.Frame):
     #___________________________________________________________________________
     def __init__(self, main_function):
         self.parent = tk.Tk()
-        self.parent.title("Altura de cactus")
+        self.parent.title("Geolocalización de cactus")
         self.parent.resizable(0,0)
-        self.parent.iconbitmap("height.ico")
+        self.parent.iconbitmap("location.ico")
 
         super().__init__(self.parent)
 
 
         # Variables
         #_______________________________________________________________________
+        self.coords_dir = StringVar(value=pj('src','results','coords'))
         self.bbox_file = StringVar(value=pj('src','results','bboxes','bbox_file.csv'))
-        self.heights_dir = StringVar(value=pj('src','results','heights'))
         self.overwrite = BooleanVar(value=False)
         self.main_function = main_function
 
@@ -72,7 +72,7 @@ class UI(ttk.Frame):
 
         self.entry_res = ttk.Entry(
             self.marco,
-            textvariable=self.heights_dir,
+            textvariable=self.coords_dir,
             width=standard_width
         )
 
@@ -153,7 +153,7 @@ class UI(ttk.Frame):
             pady=(0,15)
         )
         self.button_res.grid(row=row_, column=2, pady=(0,15))
-        
+
         ## guardar imágenes
         row_ += 1
         self.check_save_imgs.grid(row=row_, column=0, sticky=W, pady=(0,0))
@@ -189,6 +189,6 @@ class UI(ttk.Frame):
         pasado en el constructor.
         """
         self.marco.destroy()
-        self.main_function(self.bbox_file.get(), self.heights_dir.get(),
+        self.main_function(self.bbox_file.get(), self.coords_dir.get(),
                            self.overwrite.get())
         self.parent.destroy()

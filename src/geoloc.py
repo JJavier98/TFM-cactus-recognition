@@ -18,7 +18,7 @@ import mpmath as mp
 from mpmath import mpf
 from tqdm import tqdm
 
-from geoloc_cacti_ui import UI
+from geoloc_ui import UI
 
 
 # ARGUMENTOS
@@ -48,6 +48,13 @@ parser.add_argument(
     required=False,
     default='src/results/coords',
     help="Directorio donde guardar el .csv actualizado con las coordenadas"
+)
+parser.add_argument(
+    "-over",
+    "--overwrite",
+    required=False,
+    default=False,
+    help="Ignorar height_folder y sobrescribir bboxes_file"
 )
 
 args = parser.parse_args()
@@ -204,13 +211,16 @@ def bbox2coords(img_col, img_row, x_img_coord, y_img_coord):
     return [latitude, longitude]
 
 
-def locate_cacti(bboxes_file, coords_folder):
+def locate_cacti(bboxes_file, coords_folder, overwrite=False):
     """
     Calcula las coordenadas de todos los bboxes que aparezcan en el archivo
     indicado
 
     Args:
         bboxes_file (str): archivo que contiene los bboxes de los cactus detectados.
+        coords_folder (str): carpeta destino donde se guardará el csv resultado.
+        overwrite (bool, optional): Ignorar coords_folder y sobrescribir
+            bboxes_file. Defaults to False.
     """
     bbox_df = pd.read_csv(bboxes_file, encoding='utf-8')
 
@@ -238,8 +248,12 @@ def locate_cacti(bboxes_file, coords_folder):
     bbox_df['GDS'] = gds_coords_global
     bbox_df['GD'] = gd_coords_global
 
+    res_file_path = pj(coords_folder,'coords_'+TXT_TODAY+'.csv')
+    if overwrite:
+        res_file_path = bboxes_file
+
     bbox_df.to_csv(
-        pj(coords_folder,'coords_'+TXT_TODAY+'.csv'),
+        res_file_path,
         quoting=None,
         index=False,
         encoding='utf-8'
