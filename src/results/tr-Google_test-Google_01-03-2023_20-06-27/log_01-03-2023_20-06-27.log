@@ -1,0 +1,9 @@
+01-03-2023_20-06-27
+Tiempo de ejecución: 11889.78 segundos
+Número de imágenes analizadas: 99740
+Número de cactus detectados: 503882
+Archivo de configuración: mmdetection\configs\cactus\faster_rcnn_r50_fpn_1x_google_saguaro.py
+Archivo de control: mmdetection\work_dirs\faster_rcnn_r50_fpn_1x_saguaro\epoch_11.pth
+Archivo con todos los bbox detectados: src\results\bboxes\bbox_01-03-2023_20-06-27.csv
+
+

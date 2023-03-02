@@ -12,7 +12,7 @@ def _go_through_POI(img_path):
 
     Args:
         img_path (str): path to img
-    """    
+    """
     if os.path.isfile(img_path):
         img = cv.imread(img_path)
 
@@ -36,7 +36,7 @@ def clean_imgs(path):
 
     Args:
         path (str): folder with images
-    """    
+    """
     for img_name in tqdm(os.listdir(path)):
         img_path = os.path.join(path, img_name)
         _go_through_POI(img_path)

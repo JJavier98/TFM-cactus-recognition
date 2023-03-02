@@ -168,7 +168,7 @@ def run(arguments):
                     img,
                     result,
                     score_thr = float(arguments.threshold),
-                    out_file = pj(arguments.res_path, 'imgs', TXT_TODAY, 'res_'+img_name)
+                    out_file = pj(arguments.res_path, f'imgs_{TXT_TODAY}', 'res_'+img_name)
                 )
 
             bboxes = np.vstack(result)
@@ -193,7 +193,7 @@ def run(arguments):
 
 # FUNCIÓN MAIN
 #_______________________________________________________________________________
-def main(arguments):
+def count_cacti(arguments):
     """
     Función main del programa que reune todas las operaciones a realizar.
 
@@ -212,7 +212,7 @@ def main(arguments):
     txt_n_cacti = f'Número de cactus detectados: {n_bbox}'
     txt_config_file = f'Archivo de configuración: {arguments.config_file}'
     txt_checkpoint_file = f'Archivo de control: {arguments.checkpoint_file}'
-    bbox_file = pj(arguments.res_path, 'bboxes', 'bbox_'+TXT_TODAY+".csv")
+    bbox_file = pj(arguments.res_path, 'bbox_'+TXT_TODAY+".csv")
     txt_bbox_file = f'Archivo con todos los bbox detectados: {bbox_file}'
 
     res_list = [
@@ -228,7 +228,7 @@ def main(arguments):
     print_save_results(
         res_list=res_list,
         bbox_file=bbox_file,
-        out_file=pj(arguments.res_path, 'logs', 'log_'+TXT_TODAY+'.log')
+        out_file=pj(arguments.res_path, 'log_'+TXT_TODAY+'.log')
     )
 
     return res_list
@@ -238,6 +238,6 @@ def main(arguments):
 #_______________________________________________________________________________
 if __name__ == '__main__':
     if args.user_interface:
-        app = UI(main)
+        app = UI(count_cacti)
     else:
-        main(args)
+        count_cacti(args)

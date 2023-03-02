@@ -12,6 +12,7 @@ from tkinter import E,W, DoubleVar, StringVar, BooleanVar, HORIZONTAL, END
 from tkinter import ttk
 from tkinter import filedialog as fd
 from dataclasses import dataclass
+import matplotlib
 
 
 # CLASES
@@ -28,6 +29,7 @@ class UI(ttk.Frame):
     # Constructor
     #___________________________________________________________________________
     def __init__(self, main_function):
+        matplotlib.use('Agg')
         self.parent = tk.Tk()
         self.parent.title("Detección y conteo de cactus")
         self.parent.resizable(0,0)
@@ -140,8 +142,10 @@ class UI(ttk.Frame):
             text='Seleccionar',
             command=lambda : self.update_entry_directory(
                 self.entry_imgs,
-                selection_function=fd.askdirectory()
+                selection_function=fd.askdirectory(
+                    initialdir='data/imgs'
                 )
+            )
         )
 
         self.button_res = ttk.Button(
@@ -149,8 +153,10 @@ class UI(ttk.Frame):
             text='Seleccionar',
             command=lambda : self.update_entry_directory(
                 self.entry_res,
-                selection_function=fd.askdirectory()
+                selection_function=fd.askdirectory(
+                    initialdir='src/results'
                 )
+            )
         )
 
         self.button_config = ttk.Button(
@@ -158,8 +164,10 @@ class UI(ttk.Frame):
             text='Seleccionar',
             command=lambda : self.update_entry_directory(
                 self.entry_config,
-                selection_function=fd.askopenfilename()
+                selection_function=fd.askopenfilename(
+                    initialdir='mmdetection/configs'
                 )
+            )
         )
 
         self.button_checkpoint = ttk.Button(
@@ -167,8 +175,10 @@ class UI(ttk.Frame):
             text='Seleccionar',
             command=lambda : self.update_entry_directory(
                 self.entry_checkpoint,
-                selection_function=fd.askopenfilename()
+                selection_function=fd.askopenfilename(
+                    initialdir='mmdetection/work_dirs'
                 )
+            )
         )
 
         self.button_run = ttk.Button(
@@ -271,11 +281,13 @@ class UI(ttk.Frame):
         entry.delete(0,END)
         entry.insert(0,selection_function)
 
+
     def run_button(self):
         """
         Tras darle al botón "Ejecutar" se ejecutará la main_function que se haya
         pasado en el constructor.
         """
+        self.marco.destroy()
         @dataclass
         class Args:
             """
@@ -290,7 +302,6 @@ class UI(ttk.Frame):
             save_imgs = self.save_imgs.get()
 
         args = Args()
-        self.marco.destroy()
         to_print = self.main_function(args)[:-1]
 
         for i, txt in enumerate(to_print):
