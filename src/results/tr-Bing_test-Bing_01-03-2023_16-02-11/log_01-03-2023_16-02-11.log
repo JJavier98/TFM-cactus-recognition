@@ -1,9 +1,0 @@
-01-03-2023_16-02-11
-Tiempo de ejecución: 11735.58 segundos
-Número de imágenes analizadas: 100982
-Número de cactus detectados: 431649
-Archivo de configuración: mmdetection\configs\cactus\faster_rcnn_r50_fpn_1x_bing_saguaro.py
-Archivo de control: mmdetection\work_dirs\faster_rcnn_r50_fpn_1x_bing_saguaro\latest.pth
-Archivo con todos los bbox detectados: src\results\bboxes\bbox_01-03-2023_16-02-11.csv
-
-

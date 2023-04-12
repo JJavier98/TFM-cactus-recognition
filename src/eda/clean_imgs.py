@@ -1,9 +1,20 @@
+"""
+    Script descartar imágenes incompletas o con muy poca información.
+"""
+
+# BIBLIOTECAS
+#_______________________________________________________________________________
 import cv2 as cv
 import os
 from tqdm import tqdm
 
+
+# VARIABLES GLOBALES
+#_______________________________________________________________________________
 WRONG_VALUES = [[192, 192, 192], ]
 
+# FUNCIONES
+#_______________________________________________________________________________
 # POI: Pixels of Interest
 def _go_through_POI(img_path):
     """
@@ -41,6 +52,9 @@ def clean_imgs(path):
         img_path = os.path.join(path, img_name)
         _go_through_POI(img_path)
 
+
+# EJECUCIÓN
+#_______________________________________________________________________________
 if __name__ == '__main__':
     img_to_clean_path = os.path.join('data','imgs','google_maps','bing_saguaro_z21_clean')
     clean_imgs(img_to_clean_path)

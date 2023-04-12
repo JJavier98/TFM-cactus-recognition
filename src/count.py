@@ -22,7 +22,7 @@ import numpy as np
 from tqdm import tqdm
 from mmdet.apis import init_detector, inference_detector
 
-from count_ui import UI
+from UI.count_ui import UI
 
 
 # WARNINGS

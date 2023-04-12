@@ -166,6 +166,10 @@ SAS.Planet/
 # Satellite imgs
 imgs/
 src/results/imgs/
+results/
 mmdetection/results/saguaro_09012023/
 *.jpg
 *.png
+
+# checkpoints
+work_dirs/

@@ -18,7 +18,7 @@ import mpmath as mp
 from mpmath import mpf
 from tqdm import tqdm
 
-from geoloc_ui import UI
+from UI.geoloc_ui import UI
 
 
 # ARGUMENTOS
