@@ -64,8 +64,8 @@ args = parser.parse_args()
 #_______________________________________________________________________________
 TXT_TODAY = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
 # En SAS Planet la resolución a la que se hizo el cálculo era 0.02m/pixel
-PIXEL_TO_CM_FACTOR = 20
-SHADOW_TO_HEIGHT_FACTOR = 0.5
+PIXEL_TO_CM_FACTOR = 13 # con zoom x21 el ratio es 0.13m/pixel # antiguo factor: 20
+SHADOW_TO_HEIGHT_FACTOR = 3/4.7 # altura stop/longitud de sombra # antiguo factor 0.5
 
 
 # FUNCIONES

@@ -12,7 +12,7 @@ import os
 
 # VARIABLES GLOBALES
 #_______________________________________________________________________________
-IMG_PATH = os.path.join('data', 'imgs', 'google_maps', 'gm_saguaro_z21')
+IMG_PATH = os.path.join('data', 'imgs', 'google_maps', 'gm_saguaro_z21_clean')
 
 
 # FUNCIONES
@@ -58,12 +58,12 @@ def get_min_max_row_col(img_path):
             min_row = row
             min_row_img = img
 
-    return min_row, min_col, max_row, max_col
+    # return min_row, min_col, max_row, max_col
 
-    # print(f'Max col: {max_col_img}')
-    # print(f'Min col: {min_col_img}')
-    # print(f'Max row: {max_row_img}')
-    # print(f'Min row: {min_row_img}')
+    print(f'Max col: {max_col_img}')
+    print(f'Min col: {min_col_img}')
+    print(f'Max row: {max_row_img}')
+    print(f'Min row: {min_row_img}')
 
 
 # EJECUCIÓN
